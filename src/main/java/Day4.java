@@ -7,6 +7,10 @@ import java.util.stream.IntStream;
 
 public class Day4
 {
+    private enum ToCount {
+        TotalAmountOfFullyContainedRanges,
+        TotalOverlaps
+    }
     public static void main(String[] args)
     {
         FileReader reader = new FileReader();
@@ -21,10 +25,11 @@ public class Day4
             System.exit(1);
         }
 
-        System.out.format("Total number of double ranges: %d", countFullyContainedRanges(puzzleInput));
+        System.out.format("Total number of double ranges: %d", count(puzzleInput, ToCount.TotalAmountOfFullyContainedRanges));
+        System.out.format("Total number of overlaps: %d", count(puzzleInput, ToCount.TotalOverlaps));
     }
 
-    public static int countFullyContainedRanges(List<String> puzzleInput)
+    public static int count(List<String> puzzleInput, ToCount toCount)
     {
         int counter = 0;
 
@@ -60,8 +65,17 @@ public class Day4
                 ranges.add(range);
             }
 
-            if (ranges.get(0).containsAll(ranges.get(1)) || ranges.get(1).containsAll(ranges.get(0)))
-                counter++;
+            switch (toCount)
+            {
+                case TotalAmountOfFullyContainedRanges:
+                    if (ranges.get(0).containsAll(ranges.get(1)) || ranges.get(1).containsAll(ranges.get(0)))
+                        counter++;
+                    break;
+                case TotalOverlaps:
+                    if (ranges.get(0).stream().anyMatch(element -> ranges.get(1).contains(element)))
+                        counter++;
+            }
+
         }
 
         return counter;
