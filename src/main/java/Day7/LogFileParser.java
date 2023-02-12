@@ -26,16 +26,22 @@ public class LogFileParser
         {
             String [] split = this.logfileContent.get(lineIdx).split(" ");
 
-            if (split[0] == "$")
+            if (split[0].equals("$"))
             {
                 if (split[1] == "ls")
                     continue;
+                else if (split[1].equals("cd"))
+                {
+
+                }
             }
-            else if (split[0] == "dir")
+            else if (split[0].equals("dir"))
             {
                 fs.getCurrentDirectory().newDirectory(split[1]);
             }
         }
+
+        return null;
     }
 
     /**

@@ -76,4 +76,16 @@ public abstract class FileSystemEntry
      * @return The size of the FileSystemEntry.
      */
     public abstract int size();
+
+
+    /**
+     * Compares this Object with another object.
+     * @param o The other object to compare with.
+     * @return True if both objects are the same, otherwise false.
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        return this.getName().equals(((FileSystemEntry)o).getName());
+    }
 }

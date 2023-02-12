@@ -69,11 +69,32 @@ public class Directory extends FileSystemEntry
         return size;
     }
 
-    public void newDirectory(String name) throws IllegalArgumentException
-    {
+    public void newDirectory(String name) throws IllegalArgumentException {
         if (name == null || name.isEmpty())
             throw new IllegalArgumentException("The name of the new directory mustn't be null or empty!");
 
-       if (!this.entries.add(new Directory(name)))
+        if (!this.entries.add(new Directory(name)))
+            throw new IllegalArgumentException("A directory with the passed name already exists!");
+    }
+
+    /**
+     * Generates a hashcode for the given object.
+     * NOTE: This method is overridden to achieve that the HashSet
+     *       is using the equals function to check for equality,
+     *       as a HashMap would compare for objects hashcodes normally.
+     *       To achieve this, the objects to compare with each other
+     *       must return the same hashcode.
+     *       This behaviour can impact the performance of a hashmap.
+     * @return
+     */
+    @Override
+    public int hashCode()
+    {
+        return 0;
+    }
+
+    public Set<FileSystemEntry> getContent()
+    {
+        return this.entries;
     }
 }
