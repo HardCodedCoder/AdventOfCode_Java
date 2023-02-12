@@ -2,7 +2,7 @@ package Day7;
 
 import java.io.IOException;
 import java.util.List;
-import main.java.FileReader;
+import General.FileReader;
 
 public class LogFileParser
 {

@@ -1,6 +1,8 @@
+package Day5;
+
 import java.io.IOException;
 import java.util.*;
-import main.java.FileReader;
+import General.FileReader;
 public class Day5
 {
     private static class Command

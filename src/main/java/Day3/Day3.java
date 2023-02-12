@@ -1,7 +1,9 @@
+package Day3;
+
 import java.io.IOException;
 import java.util.List;
-import main.java.FileReader;
-import main.java.Rucksack;
+import General.FileReader;
+
 public class Day3
 {
     /**

@@ -1,9 +1,10 @@
+package Day4;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-import main.java.FileReader;
+import General.FileReader;
 
 public class Day4
 {
