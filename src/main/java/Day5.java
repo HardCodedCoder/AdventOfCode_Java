@@ -1,8 +1,6 @@
-package main.java;
-
 import java.io.IOException;
 import java.util.*;
-
+import main.java.FileReader;
 public class Day5
 {
     private static class Command
@@ -49,8 +47,36 @@ public class Day5
 
         var cargoArea = createCargoArea(puzzleInput);
         var commands = parseCommands(puzzleInput);
-        shiftCargo(cargoArea, commands);
-        System.out.println("Hallo");
+        shiftCargoUsingCrateMove9001(cargoArea, commands);
+        printTopOfCargo(cargoArea);
+    }
+
+    private static void printTopOfCargo(Map<Integer, Stack<Character>> cargoArea)
+    {
+        String output = "";
+        for (var entry : cargoArea.entrySet())
+        {
+            output += entry.getValue().pop();
+        }
+
+        System.out.println(output);
+    }
+
+    private static void shiftCargoUsingCrateMove9001(Map<Integer, Stack<Character>> cargoArea, Iterable<Command> commands)
+    {
+        for (Command command : commands)
+        {
+            Deque<Character> cargoToMove = new ArrayDeque<>();
+            for (int amountCount = 1; amountCount <= command.getAmountToMove(); amountCount++)
+                cargoToMove.add(cargoArea.get(command.getFrom()).pop());
+
+            int cargoSize = cargoToMove.size();
+            for (int i = 0; i < cargoSize; i++)
+            {
+                cargoArea.get(command.getTo()).push(cargoToMove.getLast());
+                cargoToMove.removeLast();
+            }
+        }
     }
 
     private static void shiftCargo(Map<Integer, Stack<Character>> cargoArea, Iterable<Command> commands)
@@ -84,37 +110,32 @@ public class Day5
         return commands;
     }
 
-    public static Map<Integer, Stack<Character>> createCargoArea(List<String> puzzleInput) {
-        Map<Integer, Stack<Character>> cargoArea = new HashMap<>();
-
+    private static Map<Integer, Stack<Character>> createCargoArea(List<String> puzzleInput)
+    {
         // Get Number of Stacks
         int indexOfEmptyLine = puzzleInput.indexOf("");
         String[] split = puzzleInput.get(indexOfEmptyLine - 1).trim().split(" ");
-        List<String> tmp = new ArrayList<>(Arrays.stream(split).toList());
-        tmp.removeIf(element -> element.isEmpty());
-        int numberOfStacks = Integer.parseInt(tmp.get(tmp.size() - 1));
+        List<String> cargoAreaNumbers = Arrays.stream(split).filter(element -> !element.equals("")).toList();
 
-        // Create Stacks
-        List<Stack> stacks = new ArrayList<>();
-        for (int j = 1; j <= numberOfStacks; j++) {
-            stacks.add(new Stack<Character>());
-        }
+        Map<Integer, Stack<Character>> cargoArea = new HashMap<>();
 
-        for (int idx = indexOfEmptyLine - 2; idx >= 0; idx--) {
-            String line = puzzleInput.get(idx);
-            int counter = 0;
+        for (String cargoAreaNumber : cargoAreaNumbers)
+            cargoArea.put(Integer.parseInt(cargoAreaNumber), new Stack<Character>());
 
-            for (int stackIdx = 1; stackIdx < line.length() - 2; stackIdx++) {
-                if (line.charAt(stackIdx) != ' ')
-                    stacks.get(counter).push(line.charAt(stackIdx));
+        for (int lineIdx = indexOfEmptyLine - 2; lineIdx >= 0; lineIdx--)
+        {
+            String currentLine = puzzleInput.get(lineIdx);
+            int stackCounter = 0;
 
-                stackIdx += 3;
-                counter++;
+            for (int lineColumnIdx = 1; lineColumnIdx < currentLine.length(); lineColumnIdx+=4)
+            {
+                Character currentChar = currentLine.charAt(lineColumnIdx);
+                Integer currentStackKey = Integer.parseInt(cargoAreaNumbers.get(stackCounter));
+                if (currentChar != ' ')
+                    cargoArea.get(currentStackKey).push(currentChar);
+                stackCounter++;
             }
         }
-
-        for (int idx = 0; idx < stacks.size(); idx++)
-            cargoArea.put(Integer.parseInt(tmp.get(idx)), stacks.get(idx));
 
         return cargoArea;
     }
