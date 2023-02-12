@@ -1,9 +1,7 @@
-package main.java;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.SimpleTimeZone;
-
+import main.java.FileReader;
+import main.java.Rucksack;
 public class Day3
 {
     /**
