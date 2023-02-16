@@ -1,7 +1,8 @@
 package Day7;
-import java.util.Set;
 
-import main.java.Day7.FileSystemEntry;
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Directory extends FileSystemEntry
 {
@@ -9,6 +10,7 @@ public class Directory extends FileSystemEntry
      * Holds the child elements of this directory.
      */
     private Set<FileSystemEntry> entries;
+
     /**
      * Initializes a new instance of the Directory class.
      *
@@ -17,6 +19,17 @@ public class Directory extends FileSystemEntry
      */
     public Directory(String name) throws IllegalArgumentException {
         super(name);
+        this.entries = new HashSet<>();
+    }
+
+    /**
+     * Initializes a new instance of the Directory class.
+     * @param name The name of the Directory
+     * @param parent The parent Directory.
+     */
+    public Directory(String name, Directory parent)
+    {
+        super((FileSystemEntry)parent, name);
     }
 
     /**
@@ -28,16 +41,6 @@ public class Directory extends FileSystemEntry
     public Directory(String name, Set<FileSystemEntry> entries) throws IllegalArgumentException {
         super(null, name);
         this.entries = entries;
-    }
-    /**
-     * Initializes a new instance of the Directory class.
-     *
-     * @param parent The parent(-directory) of this entry.
-     * @param name   The name of the FileSystemEntry.
-     * @throws IllegalArgumentException If the passed name is null or empty.
-     */
-    public Directory(FileSystemEntry parent, String name) throws IllegalArgumentException {
-        super(parent, name);
     }
 
     /**
@@ -69,14 +72,6 @@ public class Directory extends FileSystemEntry
         return size;
     }
 
-    public void newDirectory(String name) throws IllegalArgumentException {
-        if (name == null || name.isEmpty())
-            throw new IllegalArgumentException("The name of the new directory mustn't be null or empty!");
-
-        if (!this.entries.add(new Directory(name)))
-            throw new IllegalArgumentException("A directory with the passed name already exists!");
-    }
-
     /**
      * Generates a hashcode for the given object.
      * NOTE: This method is overridden to achieve that the HashSet
@@ -97,4 +92,61 @@ public class Directory extends FileSystemEntry
     {
         return this.entries;
     }
+
+    /**
+     * Checks whether the Directory contains a FileSystemEntry with the given name.
+     * @param name  The name of the FileSystemEntry to check.
+     * @return  True if a directory or file consisting of the passed name exists, otherwise false.
+     */
+    public boolean contains(String name)
+    {
+        for (FileSystemEntry entry : this.entries)
+        {
+            if (entry.getName().equals(name))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Adds a directory or a file to this directory.
+     * @param entry The directory or file to add.
+     * @return True if the directory or file was successfully added, otherwise false.
+     */
+    public boolean add(FileSystemEntry entry)
+    {
+        return this.entries.add(entry);
+    }
+
+    /**
+     * Gets the child directory of this directory consisting of the passed name.
+     * @param dirName The directory name of the directory to get.
+     * @return The child directory.
+     * @throws IllegalArgumentException Will be thrown if the passed name is null or empty.
+     */
+    public Directory getDirectory(String dirName) throws IllegalArgumentException
+    {
+        if (dirName == null || dirName.equals(""))
+            throw new IllegalArgumentException("The passed dirName mustn't be null or empty");
+
+        for (FileSystemEntry dir : this.entries)
+        {
+            if (dir.isDirectory() && dir.getName().equals(dirName))
+                return (Directory)dir;
+        }
+
+        throw new IllegalArgumentException(MessageFormat.format("The passed directory %1 could not be found!", dirName));
+    }
+
+    /**
+     * Checks whether this Directory is empty or not.
+     * @return True if the Directory is empty, otherwise false.
+     */
+    public boolean isEmpty()
+    {
+        return this.entries.isEmpty();
+    }
+
+
 }

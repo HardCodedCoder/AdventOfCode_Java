@@ -1,6 +1,9 @@
 package Day7;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.rmi.UnexpectedException;
+import java.text.MessageFormat;
 import java.util.List;
 import General.FileReader;
 
@@ -18,7 +21,7 @@ public class LogFileParser
         this.readLogfileContent(filePath);
     }
 
-    private FileSystem createFileSystemFromLog()
+    private FileSystem createFileSystemFromLog() throws IOException
     {
         FileSystem fs = new FileSystem();
 
@@ -32,13 +35,16 @@ public class LogFileParser
                     continue;
                 else if (split[1].equals("cd"))
                 {
-
+                    if (split[2].equals(""))
+                        System.err.println("Error: Argument after cd is empty!");
+                    else if (split[2].equals(".."))
+                        fs.changeBack();
+                    else
+                        fs.changeDirectory(split[2]);
                 }
             }
             else if (split[0].equals("dir"))
-            {
-                fs.getCurrentDirectory().newDirectory(split[1]);
-            }
+                fs.getCurrentDirectory().add(new Directory(split[1], fs.getCurrentDirectory()));
         }
 
         return null;

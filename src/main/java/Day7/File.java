@@ -1,7 +1,5 @@
 package Day7;
 
-import main.java.Day7.FileSystemEntry;
-
 public class File extends FileSystemEntry {
 
     /**
@@ -16,7 +14,7 @@ public class File extends FileSystemEntry {
      * @param size The size of the file (in bytes).
      * @throws IllegalArgumentException if the passed name is null or empty.
      */
-    public File(FileSystemEntry parent, String name, int size) throws IllegalArgumentException
+    public File(Directory parent, String name, int size) throws IllegalArgumentException
     {
         super(parent, name);
         setSize(size);
@@ -29,8 +27,7 @@ public class File extends FileSystemEntry {
      * @throws IllegalArgumentException If the passed name is null or empty.
      */
     public File(String name) throws IllegalArgumentException {
-        this(null, name, 0);
-        this.size = 0;
+        this(null, name, 1);
     }
 
     /**

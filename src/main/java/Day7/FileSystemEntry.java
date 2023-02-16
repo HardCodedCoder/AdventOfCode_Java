@@ -1,4 +1,4 @@
-package main.java.Day7;
+package Day7;
 
 public abstract class FileSystemEntry
 {

@@ -3,6 +3,7 @@ package Day6;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import General.FileReader;
 
 public class Day6
 {
