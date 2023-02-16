@@ -21,7 +21,7 @@ public class LogFileParser
         this.readLogfileContent(filePath);
     }
 
-    private FileSystem createFileSystemFromLog() throws IOException
+    public FileSystem createFileSystemFromLog() throws IOException
     {
         FileSystem fs = new FileSystem();
 
@@ -45,9 +45,14 @@ public class LogFileParser
             }
             else if (split[0].equals("dir"))
                 fs.getCurrentDirectory().add(new Directory(split[1], fs.getCurrentDirectory()));
+            else
+            {
+                int fileSize = Integer.parseInt(split[0]);
+                fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(), split[1], fileSize));
+            }
         }
 
-        return null;
+        return fs;
     }
 
     /**

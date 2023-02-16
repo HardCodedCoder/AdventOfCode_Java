@@ -44,4 +44,40 @@ public class DirectoryTest
         Assertions.assertTrue(fs.getCurrentDirectory().getName().equals(dirName));
         Assertions.assertEquals(parentDirectory, fs.getCurrentDirectory().getParent());
     }
+
+    @Test
+    public void SizeReturnsCorrectSize() {
+        FileSystem fs = new FileSystem();
+        int totalSize = 12345;
+        int sizeOne = totalSize;
+        int sizeTwo = 726534;
+        totalSize+= sizeTwo;
+        int sizeThree = 27320;
+        totalSize+= sizeThree;
+        int sizeFour = 182920;
+        totalSize += sizeFour;
+        int sizeFive = 17272;
+        totalSize += sizeFive;
+        int sizeSix = 120474;
+        totalSize += sizeSix;
+        fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(), "hello World.txt", sizeOne));
+        fs.getCurrentDirectory().add(new Directory("empty", fs.getCurrentDirectory()));
+        fs.getCurrentDirectory().add(new Directory("Other", fs.getCurrentDirectory()));
+        fs.changeDirectory("Other");
+        fs.getCurrentDirectory().add(new Directory("empty", fs.getCurrentDirectory()));
+        fs.getCurrentDirectory().add(new Directory("empty2", fs.getCurrentDirectory()));
+        fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(),"second.txt", sizeTwo));
+        fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(),"third.txt", sizeThree));
+        fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(),"fourth.txt", sizeFour));
+        fs.getCurrentDirectory().add(new Directory("Not Empty", fs.getCurrentDirectory()));
+        fs.changeDirectory("Not Empty");
+        fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(),"fifth.txt", sizeFive));
+        fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(),"sixth.txt", sizeSix));
+        fs.changeBack();
+        fs.changeBack();
+        Assertions.assertTrue(fs.getCurrentDirectory().getName().equals("/"));
+        System.out.println(fs.size());
+        System.out.println(totalSize);
+        Assertions.assertEquals(totalSize, fs.size());
+    }
 }

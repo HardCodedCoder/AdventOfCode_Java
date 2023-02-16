@@ -30,6 +30,7 @@ public class Directory extends FileSystemEntry
     public Directory(String name, Directory parent)
     {
         super((FileSystemEntry)parent, name);
+        this.entries = new HashSet<>();
     }
 
     /**

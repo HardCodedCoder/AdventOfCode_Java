@@ -40,4 +40,8 @@ public class FileSystem
         else
             System.err.println(MessageFormat.format("There is no directory named: %1", dirName));
     }
+
+    public int size() {
+        return this.root.size();
+    }
 }
