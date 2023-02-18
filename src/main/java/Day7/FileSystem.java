@@ -1,6 +1,8 @@
 package Day7;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileSystem
 {
@@ -8,6 +10,9 @@ public class FileSystem
 
     private Directory currentDirectory;
 
+    public long sizeCounter = 0;
+
+    public List<Long> sizes = new ArrayList<>();
     public FileSystem()
     {
         this.root = new Directory("/");
@@ -41,7 +46,33 @@ public class FileSystem
             System.err.println(MessageFormat.format("There is no directory named: %1", dirName));
     }
 
-    public int size() {
+    public void changeToRootDir()
+    {
+        this.currentDirectory = this.root;
+    }
+
+    public long size() {
         return this.root.size();
+    }
+
+    public long getSizeOfAll(long upperBound) {
+
+        for (FileSystemEntry entry : this.currentDirectory.getContent())
+        {
+            long tmp = entry.size();
+            if (entry.isDirectory())
+            {
+                if (tmp <= upperBound) {
+                    sizeCounter += tmp;
+                    this.sizes.add(tmp);
+                }
+                Directory parent = (Directory)entry.getParent();
+                this.setCurrentDirectory((Directory) entry);
+                this.getSizeOfAll(upperBound);
+                this.setCurrentDirectory(parent);
+            }
+        }
+
+        return sizeCounter;
     }
 }

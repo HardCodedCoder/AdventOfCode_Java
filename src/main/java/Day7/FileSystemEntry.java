@@ -75,7 +75,7 @@ public abstract class FileSystemEntry
      *
      * @return The size of the FileSystemEntry.
      */
-    public abstract int size();
+    public abstract long size();
 
 
     /**

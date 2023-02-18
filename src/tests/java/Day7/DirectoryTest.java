@@ -3,6 +3,7 @@ package Day7;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.HashSet;
 
 public class DirectoryTest
@@ -79,5 +80,20 @@ public class DirectoryTest
         System.out.println(fs.size());
         System.out.println(totalSize);
         Assertions.assertEquals(totalSize, fs.size());
+    }
+
+    @Test
+    public void createdFileSystemFromLogEntryReturnsCorrectUpperboundSize()
+    {
+        LogFileParser parser = new LogFileParser("src/tests/resources/day7_test.txt");
+        try
+        {
+            FileSystem fs = parser.createFileSystemFromLog();
+            System.out.println(fs.getSizeOfAll(100000));
+        }
+        catch (IOException e)
+        {
+            System.err.println(e.getMessage());
+        }
     }
 }

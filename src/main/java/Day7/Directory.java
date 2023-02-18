@@ -60,11 +60,11 @@ public class Directory extends FileSystemEntry
      * @return The size of the FileSystemEntry.
      */
     @Override
-    public int size() {
+    public long size() {
         if (this.entries.isEmpty())
             return 0;
 
-        int size = 0;
+        long size = 0;
         for (FileSystemEntry entry : this.entries)
         {
             size += entry.size();
@@ -148,6 +148,4 @@ public class Directory extends FileSystemEntry
     {
         return this.entries.isEmpty();
     }
-
-
 }

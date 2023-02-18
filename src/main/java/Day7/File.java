@@ -5,7 +5,7 @@ public class File extends FileSystemEntry {
     /**
      * Holds the size of the file.
      */
-    private int size;
+    private long size;
 
     /**
      * Initializes a new instance of the File class.
@@ -14,7 +14,7 @@ public class File extends FileSystemEntry {
      * @param size The size of the file (in bytes).
      * @throws IllegalArgumentException if the passed name is null or empty.
      */
-    public File(Directory parent, String name, int size) throws IllegalArgumentException
+    public File(Directory parent, String name, long size) throws IllegalArgumentException
     {
         super(parent, name);
         setSize(size);
@@ -46,7 +46,7 @@ public class File extends FileSystemEntry {
      * @return The size of the File.
      */
     @Override
-    public int size() {
+    public long size() {
         return this.size;
     }
 
@@ -55,7 +55,7 @@ public class File extends FileSystemEntry {
      * @param size The size of the file to set.
      * @throws IllegalArgumentException If the passed size is lower than 1 byte.
      */
-    public void setSize(int size) throws IllegalArgumentException {
+    public void setSize(long size) throws IllegalArgumentException {
         if (size < 1)
             throw new IllegalArgumentException("The size of the file must be at least 1 byte big.");
 

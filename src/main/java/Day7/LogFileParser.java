@@ -31,7 +31,7 @@ public class LogFileParser
 
             if (split[0].equals("$"))
             {
-                if (split[1] == "ls")
+                if (split[1].equals("ls"))
                     continue;
                 else if (split[1].equals("cd"))
                 {
@@ -39,6 +39,8 @@ public class LogFileParser
                         System.err.println("Error: Argument after cd is empty!");
                     else if (split[2].equals(".."))
                         fs.changeBack();
+                    else if (split[2].equals("/"))
+                        fs.changeToRootDir();
                     else
                         fs.changeDirectory(split[2]);
                 }
@@ -47,11 +49,12 @@ public class LogFileParser
                 fs.getCurrentDirectory().add(new Directory(split[1], fs.getCurrentDirectory()));
             else
             {
-                int fileSize = Integer.parseInt(split[0]);
+                long fileSize = Integer.parseInt(split[0]);
                 fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(), split[1], fileSize));
             }
         }
 
+        fs.changeToRootDir();
         return fs;
     }
 
