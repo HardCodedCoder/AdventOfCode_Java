@@ -96,4 +96,36 @@ public class DirectoryTest
             System.err.println(e.getMessage());
         }
     }
+
+    @Test
+    public void sizeCalculationOfTestInputDataIsCorrect()
+    {
+        LogFileParser parser = new LogFileParser("src/tests/resources/day7_test.txt");
+        try
+        {
+            FileSystem fs = parser.createFileSystemFromLog();
+            long testInputUsedSpaceReference = 48381165;
+            Assertions.assertEquals(testInputUsedSpaceReference, fs.size());
+        }
+        catch (IOException e)
+        {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void freeDiskSpaceIsCalculatedCorrectlyWhenDirectoriesOrFilesAreAdded()
+    {
+        LogFileParser parser = new LogFileParser("src/tests/resources/day7_test.txt");
+        try
+        {
+            FileSystem fs = parser.createFileSystemFromLog();
+            long testInputFreeSpace = 21618835;
+            Assertions.assertEquals(testInputFreeSpace, fs.getFreeDiskSpace());
+        }
+        catch (IOException e)
+        {
+            System.err.println(e.getMessage());
+        }
+    }
 }

@@ -10,9 +10,7 @@ public class Day7
     {
         LogFileParser parser = new LogFileParser("src/main/resources/day7_input.txt");
         FileSystem fs = parser.createFileSystemFromLog();
-        System.out.println(fs.getSizeOfAll(100000));
-        System.out.println(fs.sizeCounter);
-        Collections.sort(fs.sizes);
+        fs.update(30000000);
         System.out.println("Hello");
     }
 }

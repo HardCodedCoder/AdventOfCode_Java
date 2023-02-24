@@ -46,11 +46,11 @@ public class LogFileParser
                 }
             }
             else if (split[0].equals("dir"))
-                fs.getCurrentDirectory().add(new Directory(split[1], fs.getCurrentDirectory()));
+                fs.addFileSystemEntry(new Directory(split[1], fs.getCurrentDirectory()));
             else
             {
                 long fileSize = Integer.parseInt(split[0]);
-                fs.getCurrentDirectory().add(new File(fs.getCurrentDirectory(), split[1], fileSize));
+                fs.addFileSystemEntry(new File(fs.getCurrentDirectory(), split[1], fileSize));
             }
         }
 
